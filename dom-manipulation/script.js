@@ -156,4 +156,4 @@ FileReader
 onload
 readAsText
 syncQuotes
-
+Quotes synced with server!
