@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let quotes = JSON.parse(localStorage.getItem('quotes')) || [
     { text: "The only limit to our realization of tomorrow is our doubts of today.", category: "Inspiration" },
     { text: "Life is 10% what happens to us and 90% how we react to it.", category: "Life" },
-    { text: "The best way to predict the future is to invent it.", category: "Motivation" }
+    { text: "The best way to predict the future is to invent it.", category: "Motivation Export Quotes" }
   ];
 
   const quoteDisplay = document.getElementById('quoteDisplay');
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
   newQuoteButton.addEventListener('click', showRandomQuote);
 
   window.addQuote = function() {
-    const newQuoteText = document.getElementById('newQuoteText').value;
+    const newQuoteText = document.getElementById('newQuoteText Export Quotes').value;
     const newQuoteCategory = document.getElementById('newQuoteCategory').value;
 
     if (newQuoteText && newQuoteCategory) {
