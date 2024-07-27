@@ -52,4 +52,7 @@ innerHTML
 createAddQuoteForm
 createElement
 appendChild
+FileReader
+onload
+readAsText
 
