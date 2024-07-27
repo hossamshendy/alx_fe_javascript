@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const quotes = [
+  let quotes = JSON.parse(localStorage.getItem('quotes')) || [
     { text: "The only limit to our realization of tomorrow is our doubts of today.", category: "Inspiration" },
     { text: "Life is 10% what happens to us and 90% how we react to it.", category: "Life" },
     { text: "The best way to predict the future is to invent it.", category: "Motivation" }
@@ -12,6 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const randomIndex = Math.floor(Math.random() * quotes.length);
     const quote = quotes[randomIndex];
     quoteDisplay.textContent = `"${quote.text}" - ${quote.category}`;
+    sessionStorage.setItem('lastQuote', JSON.stringify(quote));
+  }
+
+  function saveQuotes() {
+    localStorage.setItem('quotes', JSON.stringify(quotes));
   }
 
   newQuoteButton.addEventListener('click', showRandomQuote);
@@ -22,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (newQuoteText && newQuoteCategory) {
       quotes.push({ text: newQuoteText, category: newQuoteCategory });
+      saveQuotes();
       alert('New quote added successfully!');
       document.getElementById('newQuoteText').value = '';
       document.getElementById('newQuoteCategory').value = '';
@@ -30,8 +36,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // Display a random quote on initial load
-  showRandomQuote();
+  // Display the last viewed quote from session storage if available
+  const lastQuote = JSON.parse(sessionStorage.getItem('lastQuote'));
+  if (lastQuote) {
+    quoteDisplay.textContent = `"${lastQuote.text}" - ${lastQuote.category}`;
+  } else {
+    // Display a random quote on initial load
+    showRandomQuote();
+  }
 });
 
 innerHTML
