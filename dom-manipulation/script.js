@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const newQuoteButton = document.getElementById('newQuote');
   const categoryFilter = document.getElementById('categoryFilter');
 
+  // Server URL for fetching and posting quotes
+  const serverUrl = 'https://jsonplaceholder.typicode.com/posts';
+
   function saveQuotes() {
     localStorage.setItem('quotes', JSON.stringify(quotes));
   }
@@ -58,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
       quotes.push({ text: newQuoteText, category: newQuoteCategory });
       saveQuotes();
       populateCategories();
+      syncWithServer();
       alert('New quote added successfully!');
       document.getElementById('newQuoteText').value = '';
       document.getElementById('newQuoteCategory').value = '';
@@ -84,10 +88,44 @@ document.addEventListener('DOMContentLoaded', () => {
       quotes.push(...importedQuotes);
       saveQuotes();
       populateCategories();
+      syncWithServer();
       alert('Quotes imported successfully!');
     };
     fileReader.readAsText(event.target.files[0]);
   };
+
+  // Simulate fetching quotes from server
+  async function fetchQuotesFromServer() {
+    try {
+      const response = await fetch(serverUrl);
+      const serverQuotes = await response.json();
+      if (Array.isArray(serverQuotes) && serverQuotes.length > 0) {
+        quotes = serverQuotes.map(quote => ({
+          text: quote.title,
+          category: quote.body.split(' ')[0]  // Example category extraction
+        }));
+        saveQuotes();
+        populateCategories();
+      }
+    } catch (error) {
+      console.error('Error fetching quotes from server:', error);
+    }
+  }
+
+  // Simulate syncing local quotes with server
+  async function syncWithServer() {
+    try {
+      await fetch(serverUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(quotes)
+      });
+    } catch (error) {
+      console.error('Error syncing with server:', error);
+    }
+  }
 
   // Initialize
   const lastQuote = JSON.parse(sessionStorage.getItem('lastQuote'));
@@ -101,7 +139,11 @@ document.addEventListener('DOMContentLoaded', () => {
   } else {
     showRandomQuote();
   }
+
+  fetchQuotesFromServer();
+  setInterval(fetchQuotesFromServer, 30000); // Periodically fetch quotes from server every 30 seconds
 });
+
 
 Export Quotes
 application/json
