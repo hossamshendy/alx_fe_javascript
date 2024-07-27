@@ -155,4 +155,5 @@ appendChild
 FileReader
 onload
 readAsText
+syncQuotes
 
