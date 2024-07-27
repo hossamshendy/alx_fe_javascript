@@ -33,3 +33,4 @@ document.addEventListener('DOMContentLoaded', () => {
   // Display a random quote on initial load
   showRandomQuote();
 });
+
