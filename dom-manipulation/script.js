@@ -46,6 +46,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 Export Quotes
+application/json
+Blob
 innerHTML
 createAddQuoteForm
 createElement
